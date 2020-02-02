@@ -1,11 +1,4 @@
 class Robot
+  attr_accessor :x, :y
 
-
-  def roam
-    
-  end
-  
-  def move
-    
-  end
 end
