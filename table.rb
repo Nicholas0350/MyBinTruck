@@ -2,13 +2,12 @@ class Table
   attr_accessor :row
   attr_accessor :column
 
-  def roam
-    
+
+  def initialize(row, column)
+    @row = row
+    @column = column
   end
-  
-  def move
-    
-  end
+
 
   def commands
     PLACE == ''
@@ -16,7 +15,6 @@ class Table
     LEFT == ''
     RIGHT == ''
     REPORT == ''
-    
   end
   
   
