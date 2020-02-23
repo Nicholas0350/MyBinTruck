@@ -13,6 +13,13 @@ class Robot
   end
 
   def roam(direction)
+    if row <= 0 && direction == 'NORTH' ||
+       row >= 5 && direction == 'SOUTH' ||
+       column <= 0 && direction == 'EAST' ||
+       column >= 5 && direction == 'WEST'
+      raise 'cant go beyond the tabletop'
+    end
+
     if direction == 'NORTH'
       @row = row - 1
     elsif direction == 'SOUTH'
@@ -77,6 +84,58 @@ assert_equal expected_answer, actual_answer, error_message
 
 assert_equal 1, robot.column, 'Robots column is 1'
 assert_equal 1, robot.row, 'Robots row is 1'
+
+robot.place(0, 0)
+
+expected_answer = 'cant go beyond the tabletop'
+actual_answer = begin
+  robot.roam('NORTH')
+                rescue StandardError => e
+                  e.message
+end
+error_message = 'Robot should raise an error'
+assert_equal expected_answer, actual_answer, error_message
+
+assert_equal 0, robot.column, 'Robots column is 0'
+assert_equal 0, robot.row, 'Robots row is 0'
+
+expected_answer = 'cant go beyond the tabletop'
+actual_answer = begin
+  robot.roam('EAST')
+                rescue StandardError => e
+                  e.message
+end
+error_message = 'Robot should raise an error'
+assert_equal expected_answer, actual_answer, error_message
+
+assert_equal 0, robot.column, 'Robots column is 0'
+assert_equal 0, robot.row, 'Robots row is 0'
+
+robot.place(5, 5)
+
+expected_answer = 'cant go beyond the tabletop'
+actual_answer = begin
+  robot.roam('SOUTH')
+                rescue StandardError => e
+                  e.message
+end
+error_message = 'Robot should raise an error'
+assert_equal expected_answer, actual_answer, error_message
+
+assert_equal 5, robot.column, 'Robots column is 5'
+assert_equal 5, robot.row, 'Robots row is 5'
+
+expected_answer = 'cant go beyond the tabletop'
+actual_answer = begin
+  robot.roam('WEST')
+                rescue StandardError => e
+                  e.message
+end
+error_message = 'Robot should raise an error'
+assert_equal expected_answer, actual_answer, error_message
+
+assert_equal 5, robot.column, 'Robots column is 5'
+assert_equal 5, robot.row, 'Robots row is 5'
 
 # assert_equal robot.respond_to?(:surface), true, "Robot should be able to have a surface"
 
