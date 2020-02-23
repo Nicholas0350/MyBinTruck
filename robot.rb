@@ -13,11 +13,16 @@ class Robot
   end
 
   def roam(direction)
-    if direction == "NORTH"
+    if direction == 'NORTH'
       @row = row - 1
-    elsif direction == "SOUTH"
+    elsif direction == 'SOUTH'
       @row = row + 1
+    elsif direction == 'EAST'
+      @column = column - 1
+    elsif direction == 'WEST'
+      @column = column + 1
     end
+
     direction
   end
 end
@@ -45,19 +50,33 @@ assert_equal [1, 1], robot.place(1, 1), 'Robot is placed at 1,1'
 assert_equal robot.column, 1, 'Robot column is 1'
 assert_equal robot.row, 1, 'Robot row is 1'
 
-assert_equal 'NORTH', robot.roam("NORTH"), "Robot should roam NORTH"
-assert_equal 1, robot.column, "Robots column is 1"
-assert_equal 0, robot.row, "Robots row is 0"
+assert_equal 'NORTH', robot.roam('NORTH'), 'Robot should roam NORTH'
+assert_equal 1, robot.column, 'Robots column is 1'
+assert_equal 0, robot.row, 'Robots row is 0'
 
 expected_answer = 'SOUTH'
-actual_answer = robot.roam("SOUTH")
+actual_answer = robot.roam('SOUTH')
 error_message = 'Robot should roam SOUTH'
 assert_equal expected_answer, actual_answer, error_message
 
-assert_equal 1, robot.column, "Robots column is 1"
-assert_equal 1, robot.row, "Robots row is 1"
+assert_equal 1, robot.column, 'Robots column is 1'
+assert_equal 1, robot.row, 'Robots row is 1'
 
+expected_answer = 'EAST'
+actual_answer = robot.roam('EAST')
+error_message = 'Robot should roam EAST'
+assert_equal expected_answer, actual_answer, error_message
 
+assert_equal 0, robot.column, 'Robots column is 0'
+assert_equal 1, robot.row, 'Robots row is 1'
+
+expected_answer = 'WEST'
+actual_answer = robot.roam('WEST')
+error_message = 'Robot should roam WEST'
+assert_equal expected_answer, actual_answer, error_message
+
+assert_equal 1, robot.column, 'Robots column is 1'
+assert_equal 1, robot.row, 'Robots row is 1'
 
 # assert_equal robot.respond_to?(:surface), true, "Robot should be able to have a surface"
 
