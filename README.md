@@ -1,16 +1,15 @@
-Toy Robot Simulator
-===================
-Description
------------
+# Toy Robot Simulator
+
+## Description
+
 - The application is a simulation of a toy robot moving on a **Table**, of dimensions **5 units x 5 units**.
 - There are no other obstructions on the table surface.
   
 - The **robot** is free to **def_roam** around the **:surface** of SquareTabletop, but must prevent from  **falling_to_destruction.**. Any **def_movement** that would result in the **robot falling from the table** must be prevented, however further  **:valid_movement_commands** must still be allowed.
 Create an application that can **read_in_commands** of the following (textual) form:
 **PLACE X,Y,F
-MOVE
-LEFT
-RIGHT
+MOVE LEFT
+MOVE RIGHT
 REPORT**
 - PLACE will put the toy robot on the table in position X,Y and facing NORTH,
 SOUTH, EAST or WEST.
@@ -30,40 +29,52 @@ and **REPORT** commands.
 - Input can be from a file, or from standard input, as the developer chooses.
 - Provide test data to exercise the application.
 - The application must be a command line application.
-Constraints
------------
+
+## Constraints
+
+
 - The toy robot must not fall off the table during movement. This also
 includes the **initial placement** of the toy robot.
 - Any move that would cause the robot to fall must be ignored.
 Example Input and Output
-------------------------
-### Example a
-PLACE 0,0,NORTH
-MOVE
-REPORT
-Expected output:
-0,1,NORTH
-### Example b
-PLACE 0,0,NORTH
-LEFT
-REPORT
-Expected output:
-0,0,WEST
-### Example c
-PLACE 1,2,EAST
-MOVE
-MOVE
-LEFT
-MOVE
-REPORT
-Expected output
-3,3,NORTH
-Deliverables
-------------
-Please provide your source code, and any test code/data you using in
-developing your solution.
-Please engineer your solution to a standard you consider suitable for
-production. It is not required to provide any graphical output showing the
-movement of the toy robot.
-Please do not put your name in any of the submitted code since this makes it harder for us to review your submission anonymously.
 
+
+### Example 1
+```
+PLACE 0,0,NORTH
+MOVE SOUTH
+REPORT
+```
+
+Expected output:
+```
+1,0,SOUTH
+```
+
+### Example 2
+```
+PLACE 0,0,NORTH
+MOVE WEST
+REPORT
+```
+Expected output:
+
+```
+0,1,WEST
+```
+
+### Example 3
+```
+PLACE 1,2,EAST
+MOVE EAST
+MOVE EAST
+REPORT
+```
+Expected output
+```
+1,4,EAST
+```
+
+## Deliverables
+
+Please provide your source code, and any test code/data you using in developing your solution. Please engineer your solution to a standard you consider suitable for production. It is not required to provide any graphical output showing the movement of the toy robot. Please do not put your name in any of the submitted code since this makes it harder for us to review your submission anonymously.
