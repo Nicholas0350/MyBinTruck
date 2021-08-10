@@ -1,80 +1,97 @@
-# Toy Robot Simulator
+# Bin Truck Simulator
 
-## Description
+## Instructions
 
-- The application is a simulation of a toy robot moving on a **Table**, of dimensions **5 units x 5 units**.
-- There are no other obstructions on the table surface.
-  
-- The **robot** is free to **def_roam** around the **:surface** of SquareTabletop, but must prevent from  **falling_to_destruction.**. Any **def_movement** that would result in the **robot falling from the table** must be prevented, however further  **:valid_movement_commands** must still be allowed.
-Create an application that can **read_in_commands** of the following (textual) form:
-**PLACE X,Y,F
-MOVE LEFT
-MOVE RIGHT
-REPORT**
-- PLACE will put the toy robot on the table in position X,Y and facing NORTH,
-SOUTH, EAST or WEST.
-- The **origin** (0,0) can be considered to be the **SOUTH WEST** most corner.
-- The first valid command to the robot is a **PLACE** command, after that, any
-sequence of commands may be issued, in any order, including another **PLACE**
-command. The application should discard all commands in the sequence until
-a valid **PLACE** command has been executed.
-- MOVE will move the toy robot one unit forward in the direction it is
-currently facing.
-- LEFT and RIGHT will rotate the robot 90 degrees in the specified direction
-without changing the position of the robot.
-- REPORT will announce the X,Y and F of the robot. This can be in any form,
-but standard output is sufficient.
-- A robot that is not on the table can choose the **ignore** the **MOVE**, **LEFT**, **RIGHT**
-and **REPORT** commands.
-- Input can be from a file, or from standard input, as the developer chooses.
+- Read the problem description thoroughly then create a program to solve it.
+- For the solution, we prefer you to use Ruby.
+- There is no requirement for visualising this in any way beyond the output specified below.
+- Provide a README with instructions to test and run the program. Note any key design thoughts or assumptions you’ve made during development.
+- While this is a small problem, we expect you to submit what you believe is production quality code​. That is code that you would be happy to test, run, maintain, and evolve.
+- To submit your code: create a git bundle and send to us via email. Please do not​publish the code in public repositories
 - Provide test data to exercise the application.
-- The application must be a command line application.
+
+## Problem Description
+
+- The application is a simulation of a bin truck moving on a square-based neighbourhood, of dimensions 7 units x 7 units.
+- There are no other obstructions on the neighbourhood surface.
+  
+- The truck is free to drive around the surface of neighborhood, but must prevent from leaving the area. Any movement that would result in the truck must be prevented, however further valid movement commands must still be allowed.
+- The truck can only drive forward, not backwards.
+
+Create an application that can read_in_commands of the following (textual) form:
+PARK X,Y,F
+DRIVE
+LEFT
+RIGHT
+PICKUP
+CALLCENTRAL
+ 
+- PARK will put the bin truck on the garage in position X,Y and facing NORTH, SOUTH, EAST or WEST.
+- The origin (0,0) can be considered to be the SOUTH WEST most corner.
+- The first valid command to the truck is a PARK command, after that, any sequence of commands may be issued, in any order, including another PARK command. The application should discard all commands in the sequence until
+a valid PARK command has been executed.
+
+- DRIVE will move the truck one unit forward in the direction it is currently facing.
+- LEFT and RIGHT will manouver the truck 90 degrees in the specified direction without changing the position of the truck.
+
+- CALLCENTRAL will announce the X,Y and F of the truck. This can be in any form, but standard output is sufficient.
+
+- PICKUP will output the position X,Y of the bin at the left of the truck with the sayings: “BIN PICKED AT X,Y”.
+- Input can be from a file, or from standard input, as the developer chooses.
 
 ## Constraints
 
+- The bin truck must not leave the neighborhood during movement. This also includes the initial park of the truck. Any move that would cause the truck to fall must be ignored.
+- A truck that is not in the neighbourhood can the ignore the DRIVE, LEFT, RIGHT and CALLCENTRAL commands.
 
-- The toy robot must not fall off the table during movement. This also
-includes the **initial placement** of the toy robot.
-- Any move that would cause the robot to fall must be ignored.
-Example Input and Output
+# Example Input and Output
 
-
-### Example 1
+### Example A
 ```
-PLACE 0,0,NORTH
-MOVE SOUTH
-REPORT
+PARK 0,0,NORTH
+DRIVE
+CALLCENTRAL
 ```
-
-Expected output:
+output:
 ```
-1,0,SOUTH
+0,1,NORTH
 ```
 
-### Example 2
+### Example B
 ```
-PLACE 0,0,NORTH
-MOVE WEST
-REPORT
+PARK 0,0,NORTH
+RIGHT
+DRIVE
+CALLCENTRAL
 ```
-Expected output:
+output:
 
 ```
-0,1,WEST
+1,0,EAST
+```
+PICKUP
+
+output:
+```
+BIN PICKED AT 1,1
 ```
 
 ### Example 3
 ```
-PLACE 1,2,EAST
-MOVE EAST
-MOVE EAST
-REPORT
+PARK 1,2,EAST
+DRIVE
+DRIVE
+LEFT
+DRIVE
+CALLCENTRAL
 ```
-Expected output
+output
 ```
-1,4,EAST
+3,3,NORTH
 ```
+PICKUP
 
-## Deliverables
-
-Please provide your source code, and any test code/data you using in developing your solution. Please engineer your solution to a standard you consider suitable for production. It is not required to provide any graphical output showing the movement of the toy robot. Please do not put your name in any of the submitted code since this makes it harder for us to review your submission anonymously.
+output
+```
+BIN OICKED AT 2,3
+```

@@ -1,111 +1,109 @@
-require_relative 'robot.rb'
-require_relative 'tabletop.rb'
+require_relative "truck.rb"
+require_relative "neighbourhood.rb"
 
-
-assert_equal Robot, Robot, 'Should be able to find the Robot class'
-robot = Robot.new
-assert_equal robot.respond_to?(:roam), true, 'Robot should be able to roam'
-assert_equal robot.respond_to?(:place), true, 'Robot should be able to be placed'
+assert_equal Truck, Truck, "Should be able to find the Truck class"
+truck = Truck.new
+assert_equal truck.respond_to?(:drive), true, "Truck should be able to drive"
+assert_equal truck.respond_to?(:park), true, "Truck should be able to be parked"
 
 expected_answer = [0, 1]
-actual_answer = robot.place(0, 1)
-error_message = 'Robot is placed at [0,1]'
+actual_answer = truck.park(0, 1)
+error_message = "Truck is parked at [0,1]"
 assert_equal expected_answer, actual_answer, error_message
 # Same as above
-assert_equal [0, 1], robot.place(0, 1), 'Robot is placed at [0,1]'
+assert_equal [0, 1], truck.park(0, 1), "Truck is parked at [0,1]"
 
-assert_equal robot.column, 0, 'Robot column is 0'
+assert_equal truck.column, 0, "Truck column is 0"
 
 expected_answer = 1
-actual_answer = robot.row
-error_message = 'Robot row should be 1 after placing at (0, 1)'
+actual_answer = truck.row
+error_message = "Truck row should be 1 after placing at (0, 1)"
 assert_equal expected_answer, actual_answer, error_message
 
-assert_equal [1, 1], robot.place(1, 1), 'Robot is placed at 1,1'
-assert_equal robot.column, 1, 'Robot column is 1'
-assert_equal robot.row, 1, 'Robot row is 1'
+assert_equal [1, 1], truck.park(1, 1), "Truck is parked at 1,1"
+assert_equal truck.column, 1, "Truck column is 1"
+assert_equal truck.row, 1, "Truck row is 1"
 
-assert_equal Robot::NORTH, robot.roam(Robot::NORTH), 'Robot should roam NORTH'
-assert_equal 1, robot.column, 'Robots column is 1'
-assert_equal 0, robot.row, 'Robots row is 0'
+assert_equal Truck::NORTH, truck.drive(Truck::NORTH), "Truck should drive NORTH"
+assert_equal 1, truck.column, "Trucks column is 1"
+assert_equal 0, truck.row, "Trucks row is 0"
 
-expected_answer = Robot::SOUTH
-actual_answer = robot.roam(Robot::SOUTH)
-error_message = 'Robot should roam SOUTH'
+expected_answer = Truck::SOUTH
+actual_answer = truck.drive(Truck::SOUTH)
+error_message = "Truck should drive SOUTH"
 assert_equal expected_answer, actual_answer, error_message
 
-assert_equal 1, robot.column, 'Robots column is 1'
-assert_equal 1, robot.row, 'Robots row is 1'
+assert_equal 1, truck.column, "Trucks column is 1"
+assert_equal 1, truck.row, "Trucks row is 1"
 
-expected_answer = Robot::EAST
-actual_answer = robot.roam(Robot::EAST)
-error_message = 'Robot should roam EAST'
+expected_answer = Truck::EAST
+actual_answer = truck.drive(Truck::EAST)
+error_message = "Truck should drive EAST"
 assert_equal expected_answer, actual_answer, error_message
 
-assert_equal 0, robot.column, 'Robots column is 0'
-assert_equal 1, robot.row, 'Robots row is 1'
+assert_equal 0, truck.column, "Trucks column is 0"
+assert_equal 1, truck.row, "Trucks row is 1"
 
-expected_answer = Robot::WEST
-actual_answer = robot.roam(Robot::WEST)
-error_message = 'Robot should roam WEST'
+expected_answer = Truck::WEST
+actual_answer = truck.drive(Truck::WEST)
+error_message = "Truck should drive WEST"
 assert_equal expected_answer, actual_answer, error_message
 
-assert_equal 1, robot.column, 'Robots column is 1'
-assert_equal 1, robot.row, 'Robots row is 1'
+assert_equal 1, truck.column, "Trucks column is 1"
+assert_equal 1, truck.row, "Trucks row is 1"
 
-robot.place(0, 0)
+truck.park(0, 0)
 
-expected_answer = 'cant go beyond the tabletop'
+expected_answer = "cant go beyond the  neighbourhood"
 actual_answer = begin
-  robot.roam(Robot::NORTH)
-                rescue StandardError => e
-                  e.message
-end
-error_message = 'Robot should raise an error'
+    truck.drive(Truck::NORTH)
+  rescue StandardError => e
+    e.message
+  end
+error_message = "Truck should raise an error"
 assert_equal expected_answer, actual_answer, error_message
 
-assert_equal 0, robot.column, 'Robots column is 0'
-assert_equal 0, robot.row, 'Robots row is 0'
+assert_equal 0, truck.column, "Trucks column is 0"
+assert_equal 0, truck.row, "Trucks row is 0"
 
-expected_answer = 'cant go beyond the tabletop'
+expected_answer = "cant go beyond the  neighbourhood"
 actual_answer = begin
-  robot.roam(Robot::EAST)
-                rescue StandardError => e
-                  e.message
-end
-error_message = 'Robot should raise an error'
+    truck.drive(Truck::EAST)
+  rescue StandardError => e
+    e.message
+  end
+error_message = "Truck should raise an error"
 assert_equal expected_answer, actual_answer, error_message
 
-assert_equal 0, robot.column, 'Robots column is 0'
-assert_equal 0, robot.row, 'Robots row is 0'
+assert_equal 0, truck.column, "Trucks column is 0"
+assert_equal 0, truck.row, "Trucks row is 0"
 
-robot.place(5, 5)
+truck.park(5, 5)
 
-expected_answer = 'cant go beyond the tabletop'
+expected_answer = "cant go beyond the  neighbourhood"
 actual_answer = begin
-  robot.roam(Robot::SOUTH)
-                rescue StandardError => e
-                  e.message
-end
-error_message = 'Robot should raise an error'
+    truck.drive(Truck::SOUTH)
+  rescue StandardError => e
+    e.message
+  end
+error_message = "Truck should raise an error"
 assert_equal expected_answer, actual_answer, error_message
 
-assert_equal 5, robot.column, 'Robots column is 5'
-assert_equal 5, robot.row, 'Robots row is 5'
+assert_equal 5, truck.column, "Trucks column is 5"
+assert_equal 5, truck.row, "Trucks row is 5"
 
-expected_answer = 'cant go beyond the tabletop'
+expected_answer = "cant go beyond the  neighbourhood"
 actual_answer = begin
-  robot.roam(Robot::WEST)
-                rescue StandardError => e
-                  e.message
-end
-error_message = 'Robot should raise an error'
+    truck.drive(Truck::WEST)
+  rescue StandardError => e
+    e.message
+  end
+error_message = "Truck should raise an error"
 assert_equal expected_answer, actual_answer, error_message
 
-assert_equal 5, robot.column, 'Robots column is 5'
-assert_equal 5, robot.row, 'Robots row is 5'
+assert_equal 5, truck.column, "Trucks column is 5"
+assert_equal 5, truck.row, "Trucks row is 5"
 
+# assert_equal truck.respond_to?(:neighbourhood), true, "Truck should be able to have a neighbourhood"
 
-# assert_equal robot.respond_to?(:surface), true, "Robot should be able to have a surface"
-
-puts 'tests pass'
+puts "tests pass"

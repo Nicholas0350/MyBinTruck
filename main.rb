@@ -1,13 +1,12 @@
 # frozen_string_literal: true
 
-require_relative 'robot'
+require_relative "truck"
 
-robot = Robot.new
-robot.place(1, 1)
+truck = Truck.new
 
 loop do
-  puts ''
-  puts 'Enter a commmand [MOVE, PLACE, REPORT or HELP]:'
+  puts ""
+  puts "Enter a commmand [PARK, DRIVE, LEFT, RIGHT, PICKUP, CALLCENTRAL"
   # 'gets' reads 1 line from the terminal
   line_from_input = gets
   break unless line_from_input
@@ -18,64 +17,65 @@ loop do
     puts "\
     These are the commands accepted in this program\
 
-    MOVE <#{Robot::NORTH},#{Robot::SOUTH},#{Robot::EAST},#{Robot::WEST}>\
-
-    PLACE X,Y
-
-    REPORT
+    PARK X,Y,F
+    DRIVE <#{Truck::NORTH},#{Truck::SOUTH},#{Truck::EAST},#{Truck::WEST}>\
+    LEFT <#{Truck::NORTH},#{Truck::SOUTH},#{Truck::EAST},#{Truck::WEST}>\
+    RIGHT <#{Truck::NORTH},#{Truck::SOUTH},#{Truck::EAST},#{Truck::WEST}>\
+    PICKUP <#{Truck::NORTH},#{Truck::SOUTH},#{Truck::EAST},#{Truck::WEST}>\
+     
     "
     next
   end
 
-  if line_from_input =~ /^MOVE/
+  if line_from_input =~ /^DRIVE/
     begin
-      if line_from_input =~ /^MOVE #{Robot::NORTH}/
-        puts "> Moving robot #{Robot::NORTH}"
-        new_direction = robot.roam(Robot::NORTH)
-        puts "> Robot is now facing #{new_direction}"
-
-      elsif line_from_input =~ /^MOVE #{Robot::SOUTH}/
-        puts "> Moving robot #{Robot::SOUTH}"
-        new_direction = robot.roam(Robot::SOUTH)
-        puts "> Robot is now facing #{new_direction}"
-
-      elsif line_from_input =~ /^MOVE #{Robot::EAST}/
-        puts "> Moving robot #{Robot::EAST}"
-        new_direction = robot.roam(Robot::EAST)
-        puts "> Robot is now facing #{new_direction}"
-
-      elsif line_from_input =~ /^MOVE #{Robot::WEST}/
-        puts "> Moving robot #{Robot::WEST}"
-        new_direction = robot.roam(Robot::WEST)
-        puts "> Robot is now facing #{new_direction}"
-      else
-        puts "> Attempting to perform MOVE. Could not execute \"#{line_from_input}\""
+      if line_from_input =~ /^DRIVE/
+        puts "> Moving truck"
+        new_direction = truck.drive
       end
     rescue StandardError => e
-      puts "> Could not move the robot: #{e.message}"
+      puts "> Could not drive the truck: #{e.message}"
     end
     next
   end
 
-  if line_from_input =~ /^PLACE/
-    # Get the first argument
-    x = line_from_input.scan(/\d/)[0].to_i
+  if line_from_input =~ /^PARK/
+    splitted = line_from_input.split(" ") #=> ['PARK', '3,3,east']
+    values = splitted[1].split(",") #=> ['3', '3', 'east']
+    x = values[0].to_i
+    y = values[1].to_i
+    f = values[2] # Get the first argument
 
-    # Get the second argument
-    y = line_from_input.scan(/\d/)[1].to_i
-
-    # Place robot here
-    robot.place(y, x)
-
-    puts "The robot has been placed at position (#{robot.row},#{robot.column}) facing #{robot.direction}"
+    # Park truck here
+    truck.park(y, x, f)
+    puts "The truck has been parked at position (#{truck.row},#{truck.column}) facing #{truck.direction}"
     next
   end
 
-  if line_from_input =~ /^REPORT/
-    puts "The robot is at position (#{robot.row},#{robot.column}) facing #{robot.direction}"
+  if line_from_input =~ /^LEFT/
+    puts "> Truck is moving left (#{truck.row},#{truck.column}) facing #{truck.turn_left}" 
+      
+    next
+  end
+
+
+  if line_from_input =~ /^RIGHT/
+    puts "> Truck is moving right (#{truck.row},#{truck.column}) facing #{truck.turn_right}" 
+    next
+  end
+
+  if line_from_input =~ /^CALLCENTRAL/
+    puts "The truck is at position (#{truck.row},#{truck.column}) facing #{truck.direction}"
+    next
+  end
+  puts "> #{line_from_input}"
+
+
+  if line_from_input =~ /^PICKUP/
+    puts "BIN PICKED UP FROM (#{truck.row},#{truck.column}) facing #{truck.direction}"
     next
   end
   puts "> #{line_from_input}"
 end
 
-puts 'Toy robot has ended. Bye'
+puts "Truck has ended. Bye"
